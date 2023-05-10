@@ -10,19 +10,37 @@
             height: 270px;
         }
     </style>
+    <style>
+        .btn-group {
+            margin-top: 15px;
+        }
+    </style>
+    <style>
+        .highlight{
+           background-color: #93db63  !important;
+           width:25px !important;
+           border-radius: 10% !important;
+        }
+    </style>
+    <style>
+        #marker-description {
+            width: 640px;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
 
 <video id="course_video" class="video-js vjs-default-skin" controls preload="metadata" width="640" height="360">
-    <source src="https://d3c33hcgiwev3.cloudfront.net/sQuZhdPHEei3xw56fgKVxg.processed/full/540p/index.webm?Expires=1683676800&Signature=aT4qCj-Zpi0d2c19vtqJFzkh9Y0kR6-sId~Ih7xIAixL1GP~rA8ZyyenmcI6Y26TrrNqXKIJRukLbEftpuM0ewErcUPjVBExAFLr77IpxbKA01TYJ36QnbD947LwLqvB9xH2CXNB1Df8p~CZP8r5QSJXMQ8tLkzVT16s1rxEEkk_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A" type="video/mp4">
+    <source src="course-video.webm" type="video/mp4">
 </video>
 
 <div class="btn-group">
-    <button type="button" id="segment-prev">previous section</button>
-    <button type="button" id="segment-next">next section</button>
+    <button type="button" id="segment-prev"  style="width: 120px;">previous point</button>
+    <button type="button" id="segment-next" style="width: 120px;">next point</button>
 </div>
 
-<div id="marker-description" style="background-color:rgb(108, 122, 233);color:black;font-family:verdana;">
+<div id="marker-description" style="background-color:rgb(204, 179, 248);color:black;font-family:verdana;">
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
@@ -53,12 +71,20 @@
                 'font-size': '30px'
             },
             text: function(marker) {
-                return "section: " + marker.title;
+                if (marker.class === "highlight") {
+                    return "highlight: " + marker.title;
+                } else {
+                    return marker.title;
+                }
             }
         },
         onMarkerReached:function(marker, index){
-        var $para = $('#marker-description');
-        $para.text('Summary: ' + marker.summary);
+            var $para = $('#marker-description');
+            if (marker.class === "highlight") {
+                $para.text('highlight: ' + marker.summary);
+            } else {
+                $para.text('Summary: ' + marker.summary);
+            }     
         },
         onMarkerClick:function(marker,index){
         },
@@ -71,6 +97,7 @@
             {
                 time:200.5,
                 title:"Neurons",
+                class: "highlight",
                 summary: "Neurons are the smallest relevant parts of the brain and are responsible for transmitting information through dendrites and axons. They come in three flavors: sensory, motor, and interneurons."
             },
             {
@@ -81,6 +108,7 @@
             {
                 time:600,
                 title:"Networks",
+                class: "highlight",
                 summary: "The brain is wired up in a way that makes it highly resilient to damage and allows it to work very fast. Networks of neurons form computational devices that allow us to do things like recognize faces, walk upright, and experience emotions."
             },
             {
