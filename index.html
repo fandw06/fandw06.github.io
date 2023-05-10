@@ -1,54 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReelIQ Demo Page</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <title>ReelIQ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/videojs-markers/0.7.0/videojs.markers.css" rel="stylesheet">
+    <style type="text/css">
+        #example_video{
+            width: 480px;
+            height: 270px;
+        }
+    </style>
 </head>
-
 <body>
-    <header id="main-bar">
-        <div class="left">
-            <img class="coursera-logo" src="/Image/coursera-logo.png" alt="Coursera Logo">
-        </div>
-    </header>
-    <main>
-        <div class="content-box">
-            <div class="primary-box">
-                <div id="primary-watchbox-inner">
-                    <div id="video-container">
-                        <iframe width="560" height="315" src="https://d3c33hcgiwev3.cloudfront.net/sQuZhdPHEei3xw56fgKVxg.processed/full/540p/index.webm?Expires=1683676800&Signature=aT4qCj-Zpi0d2c19vtqJFzkh9Y0kR6-sId~Ih7xIAixL1GP~rA8ZyyenmcI6Y26TrrNqXKIJRukLbEftpuM0ewErcUPjVBExAFLr77IpxbKA01TYJ36QnbD947LwLqvB9xH2CXNB1Df8p~CZP8r5QSJXMQ8tLkzVT16s1rxEEkk_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A"
-                            title="Coursera Courses" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                        <div class="video-details-section">
-                        <div class="video-details">
-                            <h3 class="video-title">Embed videos and playlists</h3>
-                            <p class="video-channel-name">YouTube Viewers
-                            </p>
-                            <div class="video-metadata">
-                                <span>444,572 views</span>
-                                |
-                                <span>May 14, 2016</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    </div>
-                    <div id="bottom-container">
-                    </div>
-                </div>
-            </div>
-            <div class="secondary-box">
+<video id="course_video" class="video-js vjs-default-skin" controls preload="metadata" width="640" height="360">
+    <source src="https://d3c33hcgiwev3.cloudfront.net/sQuZhdPHEei3xw56fgKVxg.processed/full/540p/index.webm?Expires=1683676800&Signature=aT4qCj-Zpi0d2c19vtqJFzkh9Y0kR6-sId~Ih7xIAixL1GP~rA8ZyyenmcI6Y26TrrNqXKIJRukLbEftpuM0ewErcUPjVBExAFLr77IpxbKA01TYJ36QnbD947LwLqvB9xH2CXNB1Df8p~CZP8r5QSJXMQ8tLkzVT16s1rxEEkk_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A" type="video/mp4">
+</video>
 
-                    
-            </div>
-        </div>
-    </main>
+<div class="btn-group">
+    <button type="button" id="segment-prev">previous section</button>
+    <button type="button" id="segment-next">next section</button>
+</div>
+
+<div id="marker-description" style="background-color:rgb(108, 122, 233);color:black;font-family:verdana;">
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>
+<script src="https://cdn.bootcss.com/videojs-markers/0.7.0/videojs-markers.js"></script>
+<script type="text/javascript">
+    var player = videojs('course_video');
+
+    player.markers({
+        markerStyle:{  
+            'width':'5px',
+               'border-radius': '10%',
+               'background-color': 'red'
+        },
+        markerTip:{
+            display:true,
+             text: function(marker) {
+                return marker.title;
+             }
+        },
+        breakOverlay:{ 
+            display: true,
+            displayTime: 2,
+            style:{
+                color:"black",
+                backgroundColor: "grey",
+                height: "45px",
+                'font-size': '30px'
+            },
+            text: function(marker) {
+                return "section: " + marker.title;
+            }
+        },
+        onMarkerReached:function(marker, index){
+        var $para = $('#marker-description');
+        $para.text('Summary: ' + marker.summary);
+        },
+        onMarkerClick:function(marker,index){
+        },
+        markers:[
+            {
+                time:9.5,
+                title:"Introduction to the Brain",
+                summary: "The brain is the physical seed of thought and the source of our mental life and consciousness. It is made up of neurons that form clusters and networks."
+            },
+            {
+                time:200.5,
+                title:"Neurons",
+                summary: "Neurons are the smallest relevant parts of the brain and are responsible for transmitting information through dendrites and axons. They come in three flavors: sensory, motor, and interneurons."
+            },
+            {
+                time:450.6,
+                title:"Neurotransmitters",
+                summary: "Neurotransmitters are chemicals that shoot out over the synapse and affect dendrites and other neurons. They can be either excitatory or inhibitory and different neurons shoot out different neurotransmitters."
+            },
+            {
+                time:600,
+                title:"Networks",
+                summary: "The brain is wired up in a way that makes it highly resilient to damage and allows it to work very fast. Networks of neurons form computational devices that allow us to do things like recognize faces, walk upright, and experience emotions."
+            },
+            {
+                time:700,
+                title:"Computational Neuroscience",
+                summary: "Computational neuroscience tries to understand how neurons are wired up to do interesting things and uses our own success at computational theory as a model."
+            },
+        ],
+    });
+    $("#segment-next").click(function(){
+        player.markers.next();
+    })
+
+
+    $("#segment-prev").click(function(){
+        player.markers.prev();
+    })
+
+</script>
 </body>
-
 </html>
